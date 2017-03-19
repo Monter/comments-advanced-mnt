@@ -22,31 +22,73 @@ function comments_advanced_unqprfx_meta() {
 <tbody>
 	<tr class="alternate">
 		<td class="textright">
-			<label for="comment_post_id">post id</label>
+			<label for="comment_post_id">Post ID</label>
 		</td>
 		<td>
-			<input type="text" name="comment_post_id" id="comment_post_id" value="<?php echo esc_attr( $comment->comment_post_ID ); ?>" size="40" />
+			<select name="comment_post_id" id="comment_post_id">
+<?php
+	$articles = get_posts(
+		array(
+			'numberposts' => -1,
+			'orderby' => 'ID',
+			'order' => 'desc',
+			'fields' => 'ids',
+			'post_type' => 'post',
+			'post_status' => 'publish'
+		)
+	);
+	foreach ($articles as $article) {
+		echo "<option value='".esc_attr($article)."'";
+		if ( esc_attr($article) == esc_attr($comment->comment_post_ID) ) echo " selected";
+		echo ">".esc_attr($article)." - \"".wp_strip_all_tags(mb_substr(get_post($article)->post_title, 0, 50 ,'UTF-8'))."...\"</option>";
+	}
+?>
+			</select>
+			<br />Note: When you move a comment to another post, be sure to reset the parent<br />comment ID, otherwise your comment may not be visible on the page.
 		</td>
 	</tr>
 	<tr>
 		<td class="textright">
-			<label for="comment_parent">parent id</label>
+			<label for="comment_parent">Parent comment ID</label>
 		</td>
 		<td>
-			<input type="text" name="comment_parent" id="comment_parent" value="<?php echo esc_attr( $comment->comment_parent ); ?>" size="40" />
+			<select name="comment_parent" id="comment_parent">
+			<option value='0'>0 - none (parent comment is not set)</option>
+<?php
+	$commentsp = get_comments( array( 'post_id' => $comment->comment_post_ID, 'comment_approved' => 1 ) );
+	foreach ( $commentsp as $commentp ) :
+		if ( esc_attr($commentp->comment_ID) != esc_attr($comment->comment_ID) && esc_attr($commentp->comment_ID) < esc_attr($comment->comment_ID) ) { // hide himself and later
+			echo "<option value='".esc_attr($commentp->comment_ID)."'";
+			if ( esc_attr($commentp->comment_ID) == esc_attr($comment->comment_parent) ) echo " selected";
+			echo ">".esc_attr($commentp->comment_ID)." - \"".mb_substr($commentp->comment_content, 0, 55 ,'UTF-8')."...\"</option>";
+		}
+	endforeach;
+?>
+			</select>
 		</td>
 	</tr>
 	<tr class="alternate">
 		<td class="textright">
-			<label for="comment_user_id">user id</label>
+			<label for="comment_user_id">User / ID</label>
 		</td>
 		<td>
-			<input type="text" name="comment_user_id" id="comment_user_id" value="<?php echo esc_attr( $comment->user_id ); ?>" size="40" />
+			<select name="comment_user_id" id="comment_user_id">
+			<option value='0'>Guest - ID: 0</option>
+<?php
+	$users = get_users( array('orderby' => 'ID') );
+	foreach ($users as $user) {
+		$user_info = get_userdata($user->ID);
+		echo "<option value='".esc_attr($user_info->ID)."'";
+		if ( esc_attr($user_info->ID) == esc_attr($comment->user_id) ) echo " selected";
+		echo ">".esc_attr($user_info->user_login)." - ID: ".esc_attr($user_info->ID).", role(s): ".esc_attr(implode(', ', $user_info->roles)).", level: ".esc_attr($user_info->user_level)."</option>";
+	}
+?>
+			</select>
 		</td>
 	</tr>
 	<tr>
 		<td class="textright">
-			<label for="comment_author_ip">author IP</label>
+			<label for="comment_author_ip">Author IP</label>
 		</td>
 		<td>
 			<input type="text" name="comment_author_ip" id="comment_author_ip" value="<?php echo esc_attr( $comment->comment_author_IP ); ?>" size="40" />
@@ -54,7 +96,15 @@ function comments_advanced_unqprfx_meta() {
 	</tr>
 	<tr class="alternate">
 		<td class="textright">
-			<label for="comment_agent">author agent</label>
+			<label for="comment_date">Comment date</label>
+		</td>
+		<td>
+			<input type="text" name="comment_date" id="comment_date" value="<?php echo esc_attr( $comment->comment_date ); ?>" size="40" />
+		</td>
+	</tr>
+	<tr>
+		<td class="textright">
+			<label for="comment_agent">Author User Agent</label>
 		</td>
 		<td>
 			<input type="text" name="comment_agent" id="comment_agent" value="<?php echo esc_attr( $comment->comment_agent ); ?>" size="40" />
@@ -62,7 +112,6 @@ function comments_advanced_unqprfx_meta() {
 	</tr>
 </tbody>
 </table>
-
 
 <?php
 }
@@ -74,6 +123,7 @@ function comments_advanced_unqprfx_save_meta($comment_ID) {
 	$comment_parent = absint( $_POST['comment_parent'] );
 	$user_id = absint( $_POST['comment_user_id'] );
 	$comment_author_IP = esc_attr( $_POST['comment_author_ip'] );
+	$comment_date = esc_attr( $_POST['comment_date'] );
 	$comment_agent = esc_attr( $_POST['comment_agent'] );
 
 	if ($comment_parent == $comment_ID) { // comment parent cannot be self
@@ -95,6 +145,7 @@ function comments_advanced_unqprfx_save_meta($comment_ID) {
 			'comment_parent' => $comment_parent,
 			'user_id' => $user_id,
 			'comment_author_IP' => $comment_author_IP,
+			'comment_date' => $comment_date,
 			'comment_agent' => $comment_agent
 		),
 		array( 'comment_ID' => $comment_ID )
@@ -108,11 +159,10 @@ function comments_advanced_unqprfx_save_meta($comment_ID) {
 }
 add_action('edit_comment', 'comments_advanced_unqprfx_save_meta');
 
-
 function comments_advanced_unqprfx_plugin_meta( $links, $file ) { // add 'Plugin page' and 'Donate' links to plugin meta row
 	if ( strpos( $file, 'comments-advanced.php' ) !== false ) {
-		$links = array_merge( $links, array( '<a href="http://web-profile.com.ua/wordpress/plugins/comments-advanced/" title="Plugin page">Comments-advanced</a>' ) );
-		$links = array_merge( $links, array( '<a href="http://web-profile.com.ua/donate/" title="Support the development">Donate</a>' ) );
+		$links = array_merge( $links, array( '<a href="http://dev.techlog.pl/gogs/Monter/comments-advanced-mnt/" title="Plugin page">Comments-advanced-mnt</a>' ) );
+		$links = array_merge( $links, array( '<a href="http://monter.techlog.pl/stopka/dotacja/" title="Support the development">Donate</a>' ) );
 	}
 	return $links;
 }
