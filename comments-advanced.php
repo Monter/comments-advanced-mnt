@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Comments-advanced
-Plugin URI: http://wordpress.org/plugins/comments-advanced/
-Description: Edit comment's info: post id, parent comment id, user id, author IP, author agent.
-Version: 1.1
-Author: webvitaly
-Author URI: http://web-profile.com.ua/wordpress/plugins/
+Plugin Name: Comments-advanced-mnt
+Plugin URI: http://dev.techlog.pl/gogs/Monter/comments-advanced-mnt/
+Description: Edit comment's info: post id, parent comment id, user id, author IP, date and author user agent.
+Version: 1.2
+Author: Monter
+Author URI: http://monter.techlog.pl/
 License: GPLv3
 */
 
