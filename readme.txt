@@ -1,41 +1,43 @@
 === Comments-advanced ===
-Contributors: webvitaly
-Donate link: http://web-profile.com.ua/donate/
+Contributors: webvitaly, Monter
 Tags: comments, comment
-Requires at least: 3.0
-Tested up to: 4.1
-Stable tag: 1.1
+Requires at least: 4.0
+Tested up to: 4.7.3
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-Edit comment's info: post id, parent comment id, user id, author IP, author agent.
+
+Edit WordPress comment's info: post id, parent comment id, user id, author IP, date and author user agent.
+
 
 == Description ==
 
-> [WordPress Pro plugins](http://codecanyon.net/popular_item/by_category?category=wordpress&ref=webvitaly) |
-> [Comments-advanced](http://web-profile.com.ua/wordpress/plugins/comments-advanced/ "Plugin page") |
-> [Donate](http://web-profile.com.ua/donate/ "Support the development")
-
 Edit comment's info:
 
-* post id
-* parent comment id
+* post id (by select list)
+* parent comment id (by select list)
 * user id
 * author IP
-* author agent
-
-
-= Useful: =
-* ["Anti-spam" - block spam in comments](http://wordpress.org/plugins/anti-spam/ "no spam, no captcha")
-* ["Page-list" - show list of pages with shortcodes](http://wordpress.org/plugins/page-list/ "list of pages with shortcodes")
-* [WordPress Pro plugins](http://codecanyon.net/popular_item/by_category?category=wordpress&ref=webvitaly)
+* comment date (with seconds)
+* author User Agent
 
 
 == Screenshots ==
 
-1. comments meta-box
+1. comments meta-box v1.1
+2. comments meta-box v1.2
+
 
 == Changelog ==
+
+= 1.2 - 2017-17-03 =
+* remove "Post ID" input and conversion to the drop-down list of existing posts
+* remove "Parent comment ID" input and conversion to the drop-down list of existing comments
+* remove "User ID" input and conversion to the drop-down list of existing users
+* added comment date input field (with seconds)
+* added warning about manual reset parent id when you move the comment to another post
+* other minor fixes and improvements
 
 = 1.1 - 2012-14-05 =
 * minor changes
@@ -43,7 +45,8 @@ Edit comment's info:
 = 1.0 =
 * initial release
 
+
 == Installation ==
 
 1. install and activate the plugin on the Plugins page
-2. edit comments info
+2. go to edit comment -> info
