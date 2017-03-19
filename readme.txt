@@ -3,7 +3,7 @@ Contributors: webvitaly, Monter
 Tags: comments, comment
 Requires at least: 4.0
 Tested up to: 4.7.3
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -15,8 +15,8 @@ Edit WordPress comment's info: post id, parent comment id, user id, author IP, d
 
 Edit comment's info:
 
-* post id (by select list)
-* parent comment id (by select list)
+* post id (by drop-down list)
+* parent comment id (by drop-down list)
 * user id
 * author IP
 * comment date (with seconds)
@@ -27,9 +27,16 @@ Edit comment's info:
 
 1. comments meta-box v1.1
 2. comments meta-box v1.2
+3. comments meta-box v1.3
 
 
 == Changelog ==
+
+= 1.3 - 2017-18-03 =
+* replace WP functions to reducing the number of database queries
+* parent_id from now is automatically reset when you move the comment to another post
+* improve the readability of drop-down lists
+* other minor fixes and improvements
 
 = 1.2 - 2017-17-03 =
 * remove "Post ID" input and conversion to the drop-down list of existing posts
