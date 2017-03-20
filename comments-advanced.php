@@ -83,11 +83,9 @@ function comments_advanced_unqprfx_meta() {
 			<select name="comment_user_id" id="comment_user_id">
 			<option value='0'>0 > Guest</option>
 <?php
-	$users = $wpdb->get_results( "SELECT wp_users.ID, wp_users.display_name, wp_usermeta.meta_value.
-	 FROM wp_users.
-	 JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id.
-	 WHERE wp_usermeta.meta_key = 'wp_capabilities'
-	 ORDER BY wp_users.ID;", ARRAY_A );
+	$users = $wpdb->get_results( "SELECT " . $wpdb->prefix . "users.ID, " . $wpdb->prefix . "users.display_name, " . $wpdb->prefix . "usermeta.meta_value FROM " . $wpdb->prefix . "users
+	 JOIN " . $wpdb->prefix . "usermeta ON " . $wpdb->prefix . "users.ID = " . $wpdb->prefix . "usermeta.user_id WHERE " . $wpdb->prefix . "usermeta.meta_key = 'wp_capabilities'
+	 ORDER BY " . $wpdb->prefix . "users.ID;", ARRAY_A );
 	foreach ( $users as $listus ) {
 		$user_rol = unserialize($listus['meta_value']);
 		foreach($user_rol AS $key => $item) {
