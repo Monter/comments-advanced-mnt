@@ -83,12 +83,19 @@ function comments_advanced_unqprfx_meta() {
 			<select name="comment_user_id" id="comment_user_id">
 			<option value='0'>0 > Guest</option>
 <?php
-	$users = get_users( array('orderby' => 'ID') );
-	foreach ($users as $user) {
-		$user_info = get_userdata($user->ID);
-		echo '<option value="'.esc_attr($user_info->ID).'"';
-		if ( $user_info->ID == $comment->user_id ) echo ' selected';
-		echo '>'.$user_info->ID.' > '.$user_info->user_login.' ('.implode(', ', $user_info->roles).')</option>';
+	$users = $wpdb->get_results( "SELECT wp_users.ID, wp_users.display_name, wp_usermeta.meta_value.
+	 FROM wp_users.
+	 JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id.
+	 WHERE wp_usermeta.meta_key = 'wp_capabilities'
+	 ORDER BY wp_users.ID;", ARRAY_A );
+	foreach ( $users as $listus ) {
+		$user_rol = unserialize($listus['meta_value']);
+		foreach($user_rol AS $key => $item) {
+			$usrole = $key;
+		}
+		echo '<option value="'.esc_attr($listus['ID']).'"';
+		if ( $listus['ID'] == $comment->user_id ) echo ' selected';
+		echo '>'.$listus['ID'].' > '.$listus['display_name'].' ('.$usrole.')</option>';
 	}
 ?>
 			</select>
