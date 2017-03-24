@@ -18,10 +18,16 @@ Edit comment's info:
 
 1. comments meta-box v1.1
 2. comments meta-box v1.2
-3. comments meta-box v1.3 & 1.4
+3. comments meta-box v1.3 & 1.4+
 
 
 == Changelog ==
+
+= 1.4.2 - 2017-24-03 =
+* added a hint for the current ID of the edit comment
+
+= 1.4.1 - 2017-20-03 =
+* add/repair prefix for WPDB Queries
 
 = 1.4 - 2017-20-03 =
 * change get_user & get_userdata WP functions to WPDB Query for reducing the number of database queries
