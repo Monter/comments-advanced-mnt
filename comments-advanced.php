@@ -72,7 +72,8 @@ function comments_advanced_unqprfx_meta() {
 		}
 	}
 ?>
-			</select>
+			</select><br />
+			<?php echo "Hint: edited comment has the ID number: ".$comment->comment_ID; ?>
 		</td>
 	</tr>
 	<tr class="alternate">
