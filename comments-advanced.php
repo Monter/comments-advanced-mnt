@@ -3,7 +3,7 @@
 Plugin Name: Comments-advanced-mnt
 Plugin URI: http://dev.techlog.pl/gogs/Monter/comments-advanced-mnt/
 Description: Edit comment's info: post id, parent comment id, user id, author IP, date and author user agent.
-Version: 1.3
+Version: 1.4.2
 Author: Monter
 Author URI: http://monter.techlog.pl/
 License: GPLv3
