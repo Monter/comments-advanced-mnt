@@ -28,6 +28,7 @@ Edit comment's info:
 1. comments meta-box v1.1
 2. comments meta-box v1.2
 3. comments meta-box v1.3
+4. comments meta-box v1.42
 
 
 == Changelog ==
