@@ -9,6 +9,10 @@ Author URI: http://monter.techlog.pl/
 License: GPLv3
 */
 
+$is_admin = is_admin() && ! defined( 'DOING_AJAX' );
+
+if ( $is_admin ) {
+
 function comments_advanced_unqprfx_add_meta() {
 	add_meta_box( 'comment-info', 'Comment advanced info', 'comments_advanced_unqprfx_meta', 'comment', 'normal' );
 }
@@ -181,3 +185,5 @@ function comments_advanced_unqprfx_plugin_meta( $links, $file ) { // add 'Plugin
 	return $links;
 }
 add_filter( 'plugin_row_meta', 'comments_advanced_unqprfx_plugin_meta', 10, 2 );
+
+}
